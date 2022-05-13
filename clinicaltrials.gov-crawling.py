@@ -20,8 +20,11 @@ import re
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd     # pip install pands필요
 import numpy as np
+import yaml
 
-
+with open('key.yaml') as f:
+    conf = yaml.load(f)
+    
 options = webdriver.ChromeOptions()
 options.add_experimental_option("prefs", {
   "download.default_directory": r"C:\Users\99rac\AppData\Local\Programs\Python\Python39",
@@ -59,16 +62,20 @@ save_xlsx.save() #xlsx 파일로 저장
 
 ###############################################################################clinicaltrial.gov에서 임상시험정보포함 엑셀 파일 다운로드 후 .xlsx파일로 저장
 
+aws_user = conf['user']
+aws_passwd = conf['passwd']
+aws_host = conf['host']
+aws_db = conf['db']
 
 db=MySQLdb.connect(
     #User
-    user='admin',
+    user=aws_user,
     #Test001
-    passwd='tjdrbsrhkseo123',
+    passwd=aws_passwd,
     #localhost
-    host='database-skku.c6dzc5dnqf69.ap-northeast-2.rds.amazonaws.com',
+    host=aws_host,
     #doctors,
-    db='medii',
+    db=aws_db,
     charset="utf8"
 )
 curs = db.cursor() #Select Query #
